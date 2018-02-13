@@ -16,7 +16,7 @@
 <script>
 export default {
   data: () => ({
-    drawerOpened: true
+    drawerOpened: false
   })
 }
 </script>
