@@ -1,7 +1,18 @@
 <template>
 <v-app dark>
-  <v-navigation-drawer app clipped absolute v-model="drawerOpened"></v-navigation-drawer>
-  <v-toolbar app class="toolbar">
+  <v-navigation-drawer app clipped absolute v-model="drawerOpened">
+    <v-list dense>
+        <v-list-tile>
+          <v-list-tile-action>
+            <v-icon>dashboard</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>All</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+  </v-navigation-drawer>
+  <v-toolbar app fixed clipped-left class="toolbar">
     <v-toolbar-side-icon @click.stop="drawerOpened = !drawerOpened"></v-toolbar-side-icon>
   </v-toolbar>
   <v-content>
@@ -25,7 +36,6 @@ export default {
 <style>
 @import '../node_modules/vuetify/dist/vuetify.min.css';
 .toolbar {
-  position: relative;
   z-index: 5;
 }
 </style>
