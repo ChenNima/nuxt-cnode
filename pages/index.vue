@@ -1,9 +1,12 @@
 <template>
-  <topic-list :topics="topics" :isLoading="isLoading" @refresh="handleRefresh"/>
+  <pull-refresh-layout :isLoading="isLoading" @refresh="handleRefresh">
+    <topic-list :topics="topics"/>
+  </pull-refresh-layout>
 </template>
 
 <script>
 import TopicList from '~/components/topic/TopicList.vue';
+import PullRefreshLayout from '~/components/common/PullRefreshLayout.vue';
 import { mapActions, mapState } from 'vuex';
 
 export default {
@@ -14,7 +17,8 @@ export default {
     isLoading: false
   }),
   components: {
-    TopicList
+    TopicList,
+    PullRefreshLayout
   },
   computed: {
     ...mapState('topic', ['topics'])
