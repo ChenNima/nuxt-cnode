@@ -7,7 +7,7 @@
 <script>
 import TopicList from '~/components/topic/TopicList.vue';
 import PullRefreshLayout from '~/components/common/PullRefreshLayout.vue';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   asyncData({store}) {
@@ -21,7 +21,7 @@ export default {
     PullRefreshLayout
   },
   computed: {
-    ...mapState('topic', ['topics'])
+    ...mapGetters('topic', ['topics'])
   },
   methods: {
     ...mapActions('topic', ['fetchTopics']),

@@ -1,4 +1,6 @@
 import axios from 'axios';
+import moment from 'moment';
+import { compactInteger } from 'humanize-plus';
 import API from '~/lib/api';
 import * as TYPES from '~/store/mutation-types';
 
@@ -18,7 +20,14 @@ export const actions = {
 }
 
 export const getters = {
-  topics: state => state.topics
+  topics: state => state.topics.map((topic) => {
+    return {
+      ...topic,
+      readableTime: moment(topic.last_reply_at).fromNow(),
+      reply_count: compactInteger(topic.reply_count),
+      visit_count: compactInteger(topic.visit_count)
+    }
+  })
 }
 
 export const mutations = {
