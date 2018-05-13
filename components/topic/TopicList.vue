@@ -1,7 +1,7 @@
 <template>
   <v-list two-line>
-      <topic-card :topic="topic" v-for="topic in topics" :key="topic.id"/>
-    </v-list>
+    <topic-card :topic="topic" v-for="topic in topics" :key="topic.id"/>
+  </v-list>
 </template>
 
 <script>

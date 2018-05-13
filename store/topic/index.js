@@ -1,6 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import { compactInteger } from 'humanize-plus';
+import { uniqBy } from 'lodash';
 import API from '~/lib/api';
 import * as TYPES from '~/store/mutation-types';
 
@@ -14,8 +15,19 @@ export const actions = {
     if (!page) {
       return;
     }
-    const res = await axios.get(API.topics);
-    commit(TYPES.FETCH_TOPICS_DONE, res.data.data)
+    const res = await axios.get(API.topics, {
+      params: {
+        page
+      }
+    });
+    if (page === 1) {
+      commit(TYPES.FETCH_TOPICS_DONE, res.data.data)
+    } else {
+      commit(TYPES.FETCH_MORE_TOPICS_DONE, {
+        topics: res.data.data,
+        page
+      });
+    }
   }
 }
 
@@ -33,6 +45,11 @@ export const getters = {
 export const mutations = {
   [TYPES.FETCH_TOPICS_DONE](state, topics) {
     state.topics = topics;
+    state.page = 1;
+  },
+  [TYPES.FETCH_MORE_TOPICS_DONE](state, { topics, page }) {
+    state.topics = uniqBy(state.topics.concat(topics), 'id');
+    state.page = page;
   }
 }
 

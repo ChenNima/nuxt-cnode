@@ -33,6 +33,7 @@ module.exports = {
     ** Run ESLint on save
     */
     extend (config, { isDev, isClient }) {
+      config.resolve.alias['lodash'] = 'lodash-es';
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',
