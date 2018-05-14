@@ -7,17 +7,19 @@ import * as TYPES from '~/store/mutation-types';
 
 export const state = {
   topics: [],
-  page: 1
+  page: 1,
+  tab: 'all'
 }
 
 export const actions = {
-  async fetchTopics({ commit }, page) {
+  async fetchTopics({ commit, state }, page) {
     if (!page) {
       return;
     }
     const res = await axios.get(API.topics, {
       params: {
-        page
+        page,
+        tab: state.tab
       }
     });
     if (page === 1) {
@@ -50,6 +52,9 @@ export const mutations = {
   [TYPES.FETCH_MORE_TOPICS_DONE](state, { topics, page }) {
     state.topics = uniqBy(state.topics.concat(topics), 'id');
     state.page = page;
+  },
+  [TYPES.SET_TOPIC_TAB](state, tab) {
+    state.tab = tab;
   }
 }
 

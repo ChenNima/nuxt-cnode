@@ -1,5 +1,6 @@
 <template>
-  <pull-refresh-layout :isLoading="isLoading" @refresh="handleRefresh">
+<loading-container v-if="isLoadingTab" />
+  <pull-refresh-layout v-else :isLoading="isLoading" @refresh="handleRefresh">
     <infinity-scroll-layout :isLoading="isLoadingMore" @loadMore="onLoadMore">
       <topic-list :topics="topics"/>
     </infinity-scroll-layout>
@@ -10,6 +11,7 @@
 import TopicList from '~/components/topic/TopicList.vue';
 import PullRefreshLayout from '~/components/common/PullRefreshLayout.vue';
 import InfinityScrollLayout from '~/components/common/InfinityScrollLayout.vue';
+import LoadingContainer from '~/components/common/LoadingContainer.vue';
 import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
@@ -18,16 +20,18 @@ export default {
   },
   data: () => ({
     isLoading: false,
-    isLoadingMore: false
+    isLoadingMore: false,
+    isLoadingTab: false
   }),
   components: {
     TopicList,
     PullRefreshLayout,
-    InfinityScrollLayout
+    InfinityScrollLayout,
+    LoadingContainer
   },
   computed: {
     ...mapGetters('topic', ['topics']),
-    ...mapState('topic', ['page'])
+    ...mapState('topic', ['page', 'tab'])
   },
   methods: {
     ...mapActions('topic', ['fetchTopics']),
@@ -40,6 +44,16 @@ export default {
       this.isLoadingMore = true;
       await this.fetchTopics(this.page + 1, true);
       this.isLoadingMore = false;
+    }
+  },
+  watch: {
+    async tab(newValue, oldValue) {
+      if (newValue === oldValue) {
+        return;
+      }
+      this.isLoadingTab = true;
+      await this.fetchTopics(1);
+      this.isLoadingTab = false;
     }
   }
 }
