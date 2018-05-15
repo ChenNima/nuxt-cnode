@@ -15,8 +15,11 @@ import LoadingContainer from '~/components/common/LoadingContainer.vue';
 import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
-  asyncData({store}) {
-    return store.dispatch('topic/fetchTopics', 1);
+  asyncData({store, route}) {
+    return store.dispatch('topic/fetchTopics', {
+        page:1,
+        tab: route.query.tab
+      });
   },
   data: () => ({
     isLoading: false,
@@ -35,14 +38,20 @@ export default {
   },
   methods: {
     ...mapActions('topic', ['fetchTopics']),
-    async handleRefresh() {
+    async handleRefresh(o, n) {
       this.isLoading = true;
-      await this.fetchTopics(1);
+      await this.fetchTopics({
+        page:1,
+        tab: this.$route.query.tab
+      });
       this.isLoading = false;
     },
     async onLoadMore() {
       this.isLoadingMore = true;
-      await this.fetchTopics(this.page + 1, true);
+      await this.fetchTopics({
+        page: this.page + 1,
+        tab: this.$route.query.tab
+      });
       this.isLoadingMore = false;
     }
   },
@@ -54,6 +63,9 @@ export default {
       this.isLoadingTab = true;
       await this.fetchTopics(1);
       this.isLoadingTab = false;
+    },
+    '$route': {
+      handler: 'handleRefresh'
     }
   }
 }

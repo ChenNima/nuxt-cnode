@@ -7,19 +7,21 @@ import * as TYPES from '~/store/mutation-types';
 
 export const state = {
   topics: [],
+  topic: {},
   page: 1,
   tab: 'all'
 }
 
 export const actions = {
-  async fetchTopics({ commit, state }, page) {
+  async fetchTopics({ commit, state }, {page, tab}) {
     if (!page) {
       return;
     }
+    tab = tab || state.tab || 'all';
     const res = await axios.get(API.topics, {
       params: {
         page,
-        tab: state.tab
+        tab
       }
     });
     if (page === 1) {
@@ -30,6 +32,13 @@ export const actions = {
         page
       });
     }
+  },
+  async fetchTopic({commit}, id) {
+    if (!id) {
+      return;
+    }
+    const res = await axios.get(API.topic({id}));
+    commit(TYPES.FETCH_TOPIC_DONE, res.data.data)
   }
 }
 
@@ -41,7 +50,8 @@ export const getters = {
       reply_count: compactInteger(topic.reply_count),
       visit_count: compactInteger(topic.visit_count)
     }
-  })
+  }),
+  getTopic: (state, getters) => id => getters.topics.find(topic => topic.id === id) || {}
 }
 
 export const mutations = {
@@ -55,6 +65,14 @@ export const mutations = {
   },
   [TYPES.SET_TOPIC_TAB](state, tab) {
     state.tab = tab;
+  },
+  [TYPES.FETCH_TOPIC_DONE](state, topic) {
+    const index = state.topics.findIndex(existTopic => existTopic.id === topic.id);
+    if (index !== undefined) {
+      state.topics.splice(index, 1, topic);
+    } else {
+      state.topics.push(topic);
+    }
   }
 }
 

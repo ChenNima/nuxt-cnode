@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-list-tile avatar :key="topic.id" @click="test">
+    <v-list-tile avatar :key="topic.id" @click="test" :to="{name: 'topic-id', params: {id: topic.id}}">
       <v-list-tile-avatar>
         <img :src="author.avatar_url">
       </v-list-tile-avatar>
