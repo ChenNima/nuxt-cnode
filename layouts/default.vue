@@ -7,7 +7,7 @@
     <v-toolbar-side-icon @click.stop="toggleDrawer(!drawerOpened)"></v-toolbar-side-icon>
   </v-toolbar>
   <v-content>
-    <v-container fluid>
+    <v-container id="main_container" fluid>
       <nuxt/>
     </v-container>
   </v-content>
@@ -18,11 +18,17 @@
 <script>
 import NavList from '../components/NavList.vue';
 import * as TYPES from '~/store/mutation-types';
+import { isLarge } from '~/lib/utile.js';
 import { mapMutations, mapState } from 'vuex';
 
 export default {
   components: {
     NavList
+  },
+  beforeMount () {
+    if (isLarge()) {
+      this.toggleDrawer(true);
+    }
   },
   computed: {
     ...mapState(['drawerOpened'])
@@ -30,10 +36,7 @@ export default {
   methods: {
     ...mapMutations({
       toggleDrawer: TYPES.TOGGLE_DRAWER
-    }),
-    onTransitionend(e) {
-      console.log(e);
-    }
+    })
   }
 }
 </script>
@@ -43,5 +46,10 @@ export default {
 @import '../node_modules/vuetify/dist/vuetify.min.css';
 .toolbar {
   z-index: 5;
+}
+@media (max-width: 600px) {
+  #main_container {
+    padding:  0;
+  }
 }
 </style>
