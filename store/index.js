@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as TYPES from '~/store/mutation-types';
 
 import * as topic from './topic';
 
@@ -8,11 +9,11 @@ Vue.use(Vuex)
 const store = () => new Vuex.Store({
 
   state: {
-    counter: 0
+    drawerOpened: false
   },
   mutations: {
-    increment (state) {
-      state.counter++
+    [TYPES.TOGGLE_DRAWER](state, opened) {
+      state.drawerOpened = opened;
     }
   },
   modules: {

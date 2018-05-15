@@ -10,12 +10,18 @@
         </v-list-tile-title>
         <v-list-tile-sub-title class="subtitle">
           <topic-meta-bar :view="topic.visit_count" :comment="topic.reply_count" :time="topic.readableTime"></topic-meta-bar>
-          <v-chip color="green" text-color="white" small v-if="topic.top">
-            <v-icon>star</v-icon>
-          </v-chip>
-          <v-chip color="orange" text-color="white" small v-else-if="topic.good">
-            <v-icon>thumb_up</v-icon>
-          </v-chip>
+          <div v-if="topic.top">
+            <v-chip color="green" text-color="white" small class="hidden-md-and-down">
+              <v-icon>star</v-icon>
+            </v-chip>
+            <v-icon color="green" small class="hidden-lg-and-up">star</v-icon>
+          </div>
+          <div v-else-if="topic.good">
+            <v-chip color="orange" text-color="white" small class="hidden-md-and-down">
+              <v-icon>thumb_up</v-icon>
+            </v-chip>
+            <v-icon color="orange" small class="hidden-lg-and-up">thumb_up</v-icon>
+          </div>
         </v-list-tile-sub-title>
       </v-list-tile-content>
     </v-list-tile>

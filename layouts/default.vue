@@ -1,10 +1,10 @@
 <template>
 <v-app dark>
-  <v-navigation-drawer app clipped fixed v-model="drawerOpened">
+  <v-navigation-drawer app clipped fixed :value="drawerOpened" @input="toggleDrawer">
     <nav-list />
   </v-navigation-drawer>
   <v-toolbar app fixed clipped-left class="toolbar">
-    <v-toolbar-side-icon @click.stop="drawerOpened = !drawerOpened"></v-toolbar-side-icon>
+    <v-toolbar-side-icon @click.stop="toggleDrawer(!drawerOpened)"></v-toolbar-side-icon>
   </v-toolbar>
   <v-content>
     <v-container fluid>
@@ -17,13 +17,23 @@
 
 <script>
 import NavList from '../components/NavList.vue';
+import * as TYPES from '~/store/mutation-types';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
-  data: () => ({
-    drawerOpened: false
-  }),
   components: {
     NavList
+  },
+  computed: {
+    ...mapState(['drawerOpened'])
+  },
+  methods: {
+    ...mapMutations({
+      toggleDrawer: TYPES.TOGGLE_DRAWER
+    }),
+    onTransitionend(e) {
+      console.log(e);
+    }
   }
 }
 </script>
