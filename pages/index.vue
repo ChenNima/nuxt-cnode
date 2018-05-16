@@ -1,10 +1,9 @@
 <template>
-<loading-container v-if="isLoadingTab" />
-  <pull-refresh-layout v-else :isLoading="isLoading" @refresh="handleRefresh">
-    <infinity-scroll-layout :isLoading="isLoadingMore" @loadMore="onLoadMore">
-      <topic-list :topics="topics"/>
-    </infinity-scroll-layout>
-  </pull-refresh-layout>
+<pull-refresh-layout :isLoading="isLoading" @refresh="handleRefresh">
+  <infinity-scroll-layout :isLoading="isLoadingMore" @loadMore="onLoadMore">
+    <topic-list :topics="topics"/>
+  </infinity-scroll-layout>
+</pull-refresh-layout>
 </template>
 
 <script>
@@ -12,10 +11,13 @@ import TopicList from '~/components/topic/TopicList.vue';
 import PullRefreshLayout from '~/components/common/PullRefreshLayout.vue';
 import InfinityScrollLayout from '~/components/common/InfinityScrollLayout.vue';
 import LoadingContainer from '~/components/common/LoadingContainer.vue';
-import { mapActions, mapGetters, mapState } from 'vuex';
+import { get } from 'lodash';
+import { mapActions, mapGetters, mapState, mapMutations } from 'vuex';
+import * as TYPES from '~/store/mutation-types';
 
 export default {
   asyncData({store, route}) {
+    store.commit('topic/' + TYPES.SET_TOPIC_TAB, route.query.tab || 'all');
     return store.dispatch('topic/fetchTopics', {
         page:1,
         tab: route.query.tab
@@ -23,8 +25,7 @@ export default {
   },
   data: () => ({
     isLoading: false,
-    isLoadingMore: false,
-    isLoadingTab: false
+    isLoadingMore: false
   }),
   components: {
     TopicList,
@@ -34,11 +35,19 @@ export default {
   },
   computed: {
     ...mapGetters('topic', ['topics']),
-    ...mapState('topic', ['page', 'tab'])
+    ...mapState('topic', ['page'])
   },
   methods: {
     ...mapActions('topic', ['fetchTopics']),
-    async handleRefresh(o, n) {
+    ...mapMutations('topic', {
+      setTopicTab: TYPES.SET_TOPIC_TAB
+    }),
+    async handleRefresh(route) {
+      const tab = get(route, 'query.tab');
+      if (tab) {
+        this.setTopicTab(tab);
+      }
+      window.scrollTo({top: 0, behavior: 'smooth'});
       this.isLoading = true;
       await this.fetchTopics({
         page:1,
@@ -56,14 +65,6 @@ export default {
     }
   },
   watch: {
-    async tab(newValue, oldValue) {
-      if (newValue === oldValue) {
-        return;
-      }
-      this.isLoadingTab = true;
-      await this.fetchTopics(1);
-      this.isLoadingTab = false;
-    },
     '$route': {
       handler: 'handleRefresh'
     }

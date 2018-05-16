@@ -1,0 +1,27 @@
+[
+  {
+    "name": "全部",
+    "icon": "toc",
+    "tab": "all"
+  },
+  {
+    "name": "精华",
+    "icon": "star",
+    "tab": "good"
+  },
+  {
+    "name": "分享",
+    "icon": "share",
+    "tab": "share"
+  },
+  {
+    "name": "问答",
+    "icon": "question_answer",
+    "tab": "ask"
+  },
+  {
+    "name": "招聘",
+    "icon": "business_center",
+    "tab": "job"
+  }
+]
