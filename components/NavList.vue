@@ -27,12 +27,6 @@ export default {
     ...mapMutations({
       toggleDrawer: TYPES.TOGGLE_DRAWER
     }),
-    onClickTab(tab) {
-      this.setTopicTab(tab);
-      if (window.innerWidth <= 1264) {
-        this.toggleDrawer(false);
-      }
-    },
     isActived(tab) {
       return tab === this.tab;
     }

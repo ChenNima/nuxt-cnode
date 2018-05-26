@@ -11,13 +11,20 @@ import TopicList from '~/components/topic/TopicList.vue';
 import PullRefreshLayout from '~/components/common/PullRefreshLayout.vue';
 import InfinityScrollLayout from '~/components/common/InfinityScrollLayout.vue';
 import LoadingContainer from '~/components/common/LoadingContainer.vue';
-import { get } from 'lodash';
+import navItem from '~/assets/json/nav-list.json';
+import { get, find } from 'lodash';
 import { mapActions, mapGetters, mapState, mapMutations } from 'vuex';
 import * as TYPES from '~/store/mutation-types';
 
+function getTabName(tab) {
+  return find(navItem, nav => nav.tab === tab).name;
+}
+
 export default {
   asyncData({store, route}) {
-    store.commit('topic/' + TYPES.SET_TOPIC_TAB, route.query.tab || 'all');
+    const tab = route.query.tab || 'all';
+    store.commit('topic/' + TYPES.SET_TOPIC_TAB, tab);
+    store.commit(TYPES.SET_TITLE, getTabName(tab));
     return store.dispatch('topic/fetchTopics', {
         page:1,
         tab: route.query.tab
@@ -42,10 +49,14 @@ export default {
     ...mapMutations('topic', {
       setTopicTab: TYPES.SET_TOPIC_TAB
     }),
+    ...mapMutations({
+      setTitle: TYPES.SET_TITLE
+    }),
     async handleRefresh(route) {
       const tab = get(route, 'query.tab');
       if (tab) {
         this.setTopicTab(tab);
+        this.setTitle(getTabName(tab));
       }
       window.scrollTo({top: 0, behavior: 'smooth'});
       this.isLoading = true;
