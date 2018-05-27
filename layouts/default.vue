@@ -5,8 +5,7 @@
   </v-navigation-drawer>
   <v-toolbar app fixed clipped-left class="toolbar">
     <v-toolbar-side-icon @click.stop="toggleDrawer(!drawerOpened)" class="hidden-lg-and-up"></v-toolbar-side-icon>
-    <site-logo class="hidden-md-and-down"/>
-    <span class="site-title hidden-lg-and-up">{{title}}</span>
+    <site-logo class="md-mid-title"/>
   </v-toolbar>
   <v-content>
     <v-container id="main_container" fluid>
@@ -30,8 +29,8 @@ export default {
     SiteLogo
   },
   computed: {
-    ...mapState(['drawerOpened', 'title']),
-    ...mapGetters(['isDrawerOpened'])
+    ...mapGetters(['isDrawerOpened']),
+    ...mapState(['drawerOpened'])
   },
   methods: {
     ...mapMutations({
@@ -41,6 +40,9 @@ export default {
       if (isOpened !== this.drawerOpened) {
         this.toggleDrawer(isOpened);
       }
+    },
+    isLarge() {
+      return isLarge;
     }
   }
 }
@@ -56,16 +58,19 @@ export default {
   #main_container {
     padding: 10px 5px 0;
   }
+  .sm-mid-title{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto !important;
+  }
 }
-.site-title{
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto !important;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  width: 400px;
-  max-width: 70%;
+@media (max-width: 960px) {
+  .md-mid-title{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto !important;
+  }
 }
 </style>

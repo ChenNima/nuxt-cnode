@@ -9,7 +9,8 @@ export const state = {
   topics: [],
   topic: {},
   page: 1,
-  tab: 'all'
+  tab: 'all',
+  scrollTop: 0
 }
 
 export const actions = {
@@ -73,7 +74,10 @@ export const mutations = {
     } else {
       state.topics.push(topic);
     }
-  }
+  },
+  [TYPES.SET_SCROLL_TOP](state, scrollTop) {
+    state.scrollTop = scrollTop;
+  },
 }
 
 export const namespaced = true;

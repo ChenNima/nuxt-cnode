@@ -11,7 +11,6 @@ const store = () => new Vuex.Store({
 
   state: {
     drawerOpened: false,
-    title: ''
   },
   getters: {
     isDrawerOpened({ drawerOpened }) {
@@ -21,9 +20,6 @@ const store = () => new Vuex.Store({
   mutations: {
     [TYPES.TOGGLE_DRAWER](state, opened) {
       state.drawerOpened = opened;
-    },
-    [TYPES.SET_TITLE](state, title) {
-      state.title = title;
     }
   },
   modules: {

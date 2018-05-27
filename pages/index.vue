@@ -16,19 +16,16 @@ import { get, find } from 'lodash';
 import { mapActions, mapGetters, mapState, mapMutations } from 'vuex';
 import * as TYPES from '~/store/mutation-types';
 
-function getTabName(tab) {
-  return find(navItem, nav => nav.tab === tab).name;
-}
-
 export default {
   asyncData({store, route}) {
     const tab = route.query.tab || 'all';
-    store.commit('topic/' + TYPES.SET_TOPIC_TAB, tab);
-    store.commit(TYPES.SET_TITLE, getTabName(tab));
-    return store.dispatch('topic/fetchTopics', {
+    if (tab !== store.state.topic.tab || !store.state.topic.topics.length) {
+      store.commit('topic/' + TYPES.SET_TOPIC_TAB, tab);
+      return store.dispatch('topic/fetchTopics', {
         page:1,
         tab: route.query.tab
       });
+    }
   },
   data: () => ({
     isLoading: false,
@@ -40,23 +37,29 @@ export default {
     InfinityScrollLayout,
     LoadingContainer
   },
+  mounted() {
+    if (this.scrollTop && this.$route.query.tab === this.tab) {
+      const scrollTop = this.scrollTop;
+      setTimeout(() => {
+        window.scrollTo({ top: scrollTop });
+      }, 0);
+    }
+    this.setScrollTop(0);
+  },
   computed: {
     ...mapGetters('topic', ['topics']),
-    ...mapState('topic', ['page'])
+    ...mapState('topic', ['page', 'scrollTop', 'tab'])
   },
   methods: {
     ...mapActions('topic', ['fetchTopics']),
     ...mapMutations('topic', {
-      setTopicTab: TYPES.SET_TOPIC_TAB
-    }),
-    ...mapMutations({
-      setTitle: TYPES.SET_TITLE
+      setTopicTab: TYPES.SET_TOPIC_TAB,
+      setScrollTop: TYPES.SET_SCROLL_TOP
     }),
     async handleRefresh(route) {
       const tab = get(route, 'query.tab');
       if (tab) {
         this.setTopicTab(tab);
-        this.setTitle(getTabName(tab));
       }
       window.scrollTo({top: 0, behavior: 'smooth'});
       this.isLoading = true;
@@ -79,6 +82,10 @@ export default {
     '$route': {
       handler: 'handleRefresh'
     }
+  },
+  beforeRouteLeave(to, { fullPath }, next) {
+    this.setScrollTop(document.scrollingElement.scrollTop);
+    next();
   }
 }
 </script>
