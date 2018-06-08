@@ -1,13 +1,12 @@
 import axios from 'axios';
-import moment from 'moment';
-import { compactInteger } from 'humanize-plus';
+import { topicGetter } from '~/lib/utile';
 import { uniqBy } from 'lodash';
 import API from '~/lib/api';
+import * as siv from './siv';
 import * as TYPES from '~/store/mutation-types';
 
 export const state = {
   topics: [],
-  topic: {},
   page: 1,
   tab: 'all',
   scrollTop: 0
@@ -33,26 +32,11 @@ export const actions = {
         page
       });
     }
-  },
-  async fetchTopic({commit}, id) {
-    if (!id) {
-      return;
-    }
-    const res = await axios.get(API.topic({id}));
-    commit(TYPES.FETCH_TOPIC_DONE, res.data.data)
   }
 }
 
 export const getters = {
-  topics: state => state.topics.map((topic) => {
-    return {
-      ...topic,
-      readableTime: moment(topic.last_reply_at).fromNow(),
-      reply_count: compactInteger(topic.reply_count),
-      visit_count: compactInteger(topic.visit_count)
-    }
-  }),
-  getTopic: (state, getters) => id => getters.topics.find(topic => topic.id === id) || {}
+  topics: state => state.topics.map(topicGetter)
 }
 
 export const mutations = {
@@ -67,17 +51,13 @@ export const mutations = {
   [TYPES.SET_TOPIC_TAB](state, tab) {
     state.tab = tab;
   },
-  [TYPES.FETCH_TOPIC_DONE](state, topic) {
-    const index = state.topics.findIndex(existTopic => existTopic.id === topic.id);
-    if (index !== undefined) {
-      state.topics.splice(index, 1, topic);
-    } else {
-      state.topics.push(topic);
-    }
-  },
   [TYPES.SET_SCROLL_TOP](state, scrollTop) {
     state.scrollTop = scrollTop;
   },
 }
+
+export const modules = {
+  siv
+};
 
 export const namespaced = true;
