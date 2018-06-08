@@ -4,7 +4,9 @@ import API from '~/lib/api';
 import * as TYPES from '~/store/mutation-types';
 
 export const state = {
-  topic: {}
+  topic: {},
+  author: {},
+  replies: [],
 }
 
 export const actions = {
@@ -24,5 +26,9 @@ export const getters = {
 export const mutations = {
   [TYPES.FETCH_TOPIC_DONE](state, topic) {
     state.topic = topic;
+    state.author = topic.author;
+    state.replies = topic.replies;
   }
 }
+
+export const namespaced = true;

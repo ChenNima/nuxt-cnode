@@ -1,10 +1,28 @@
 <template>
-  <div></div>
+  <div>
+    <v-card class="topic-content">
+      <v-breadcrumbs divider="/" class="topic-breadcrumbs">
+        <v-breadcrumbs-item
+          v-for="item in breadcrumbs"
+          :key="item.text"
+          :disabled="item.disabled"
+          :to="item.to"
+        >
+          {{ item.text }}
+        </v-breadcrumbs-item>
+      </v-breadcrumbs>
+      <topic-title-bar :topic="topic" :author="author" />
+      <v-divider></v-divider>
+      <div v-html="topic.content"></div>
+    </v-card>
+  </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations, mapState } from 'vuex';
+import TopicTitleBar from '~/components/topic/siv/TopicTitleBar';
 import * as TYPES from '~/store/mutation-types';
+import { getNavName } from '~/lib/utile.js';
 
 export default {
   beforeRouteEnter (to, from, next) {
@@ -16,13 +34,43 @@ export default {
     });
   },
   asyncData({store, route}) {
-    return store.dispatch('topic/fetchTopic', route.params.id);
+    return store.dispatch('topic/siv/fetchTopic', route.params.id);
+  },
+  components: {
+    TopicTitleBar
   },
   computed: {
-    ...mapGetters('topic', ['getTopic']),
-    topic() {
-      return this.getTopic(this.$route.params.id);
+    ...mapGetters('topic/siv', ['topic']),
+    ...mapState('topic/siv', ['author', 'replies']),
+    breadcrumbs() {
+      return [
+        {
+          text: '首页',
+          to: '/'
+        },
+        {
+          text: getNavName(this.topic.tab),
+          to: `/?tab=${this.topic.tab}`
+        },
+        {
+          text: this.topic.title
+        }
+      ];
     }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.topic-content {
+  padding: 16px;
+  overflow: hidden;
+}
+.topic-breadcrumbs {
+  padding: 0 0 10px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

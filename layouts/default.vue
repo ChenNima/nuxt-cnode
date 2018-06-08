@@ -44,9 +44,7 @@ export default {
 }
 </script>
 
-
-<style>
-@import '../node_modules/vuetify/dist/vuetify.min.css';
+<style lang="scss" scoped>
 .toolbar {
   z-index: 5;
 }
