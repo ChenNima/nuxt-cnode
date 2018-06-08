@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as TYPES from '~/store/mutation-types';
-import { isLarge } from '../lib/utile';
+import { isDesktop } from '../lib/utile';
 import { last } from 'lodash';
 
 import * as topic from './topic';
@@ -25,7 +25,7 @@ const store = () => new Vuex.Store({
   },
   getters: {
     isDrawerOpened({ drawerOpened }) {
-      return isLarge() || drawerOpened;
+      return isDesktop() || drawerOpened;
     }
   },
   mutations: {

@@ -1,10 +1,10 @@
 <template>
 <v-app dark>
-  <v-navigation-drawer app clipped fixed :value="isDrawerOpened" @input="onDrawerInput">
+  <v-navigation-drawer app clipped fixed :mobileBreakPoint="960" :value="isDrawerOpened" @input="onDrawerInput">
     <nav-list />
   </v-navigation-drawer>
   <v-toolbar app fixed clipped-left class="toolbar">
-    <v-toolbar-side-icon @click.stop="toggleDrawer(!drawerOpened)" class="hidden-lg-and-up"></v-toolbar-side-icon>
+    <v-toolbar-side-icon @click.stop="toggleDrawer(!drawerOpened)" class="hidden-md-and-up"></v-toolbar-side-icon>
     <site-logo class="md-mid-title"/>
   </v-toolbar>
   <v-content>
@@ -20,7 +20,6 @@
 import NavList from '../components/NavList.vue';
 import SiteLogo from '../components/common/SiteLogo.vue';
 import * as TYPES from '~/store/mutation-types';
-import { isLarge } from '~/lib/utile.js';
 import { mapMutations, mapState, mapGetters } from 'vuex';
 
 export default {
@@ -40,9 +39,6 @@ export default {
       if (isOpened !== this.drawerOpened) {
         this.toggleDrawer(isOpened);
       }
-    },
-    isLarge() {
-      return isLarge;
     }
   }
 }
