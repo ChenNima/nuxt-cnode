@@ -2,13 +2,15 @@
   <div>
     <h2>{{topic.title}}</h2>
     <div class="meta-bar">
-      <div>
+      <div class="author-info">
         <v-avatar :size="30">
           <img :src="author.avatar_url" :alt="author.loginname">
         </v-avatar>
-        {{author.loginname}}
+        <span class="author-name">
+          {{author.loginname}}
+        </span>
       </div>
-      <topic-meta-bar :view="topic.visit_count" :comment="topic.reply_count" :time="topic.readableTime" />
+      <topic-meta-bar :view="topic.visit_count" :comment="topic.reply_count" :time="topic.readableCreateTime" />
     </div>
   </div>
 </template>
@@ -26,10 +28,21 @@ export default {
 
 <style lang="scss" scoped>
 .meta-bar {
-  padding: 10px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: #333;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 7px;
+  margin: 20px 0;
+}
+.author-info {
+  color: rgb(148, 148, 148);
+  .author-name {
+    margin-left: 5px;
+    font-size: 16px;
+  }
 }
 </style>
 

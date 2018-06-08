@@ -12,8 +12,7 @@
         </v-breadcrumbs-item>
       </v-breadcrumbs>
       <topic-title-bar :topic="topic" :author="author" />
-      <v-divider></v-divider>
-      <div v-html="topic.content"></div>
+      <div class="markdown-container" v-html="topic.content"></div>
     </v-card>
   </div>
 </template>
