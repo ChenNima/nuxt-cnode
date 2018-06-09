@@ -1,6 +1,6 @@
 <template>
 <v-app dark>
-  <v-navigation-drawer app clipped fixed :mobileBreakPoint="960" :value="isDrawerOpened" @input="onDrawerInput">
+  <v-navigation-drawer app clipped fixed :mobileBreakPoint="960" :value="isDrawerOpened" @input="onDrawerInput" :touchless="true">
     <nav-list />
   </v-navigation-drawer>
   <v-toolbar app fixed clipped-left class="toolbar">

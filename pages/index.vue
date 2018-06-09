@@ -20,7 +20,6 @@ export default {
   asyncData({store, route}) {
     const tab = route.query.tab || 'all';
     if (tab !== store.state.topic.tab || !store.state.topic.topics.length) {
-      store.commit('topic/' + TYPES.SET_TOPIC_TAB, tab);
       return store.dispatch('topic/fetchTopics', {
         page:1,
         tab: route.query.tab
@@ -38,12 +37,14 @@ export default {
     LoadingContainer
   },
   mounted() {
-    if (this.scrollTop && this.$route.query.tab === this.tab) {
+    const currentTab = this.$route.query.tab
+    if (this.scrollTop && currentTab === this.tab) {
       const scrollTop = this.scrollTop;
       setTimeout(() => {
         window.scrollTo({ top: scrollTop });
       }, 0);
     }
+    this.setTopicTab(currentTab);
     this.setScrollTop(0);
   },
   computed: {

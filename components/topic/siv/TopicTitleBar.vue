@@ -44,5 +44,14 @@ export default {
     font-size: 16px;
   }
 }
+@media (max-width: 600px) {
+  .meta-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .author-info {
+    margin-bottom: 10px;
+  }
+}
 </style>
 
