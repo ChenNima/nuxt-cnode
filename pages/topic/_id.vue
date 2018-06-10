@@ -12,14 +12,17 @@
         </v-breadcrumbs-item>
       </v-breadcrumbs>
       <topic-title-bar :topic="topic" :author="author" />
-      <div class="markdown-container" v-html="topic.content"></div>
+      <mark-down-text :content="topic.content" />
     </v-card>
+    <reply-list :replies="replies" />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations, mapState } from 'vuex';
 import TopicTitleBar from '~/components/topic/siv/TopicTitleBar';
+import MarkDownText from '~/components/common/MarkDownText'
+import ReplyList from '~/components/topic/siv/ReplyList'
 import * as TYPES from '~/store/mutation-types';
 import { getNavName } from '~/lib/utile.js';
 
@@ -36,11 +39,13 @@ export default {
     return store.dispatch('topic/siv/fetchTopic', route.params.id);
   },
   components: {
-    TopicTitleBar
+    TopicTitleBar,
+    MarkDownText,
+    ReplyList
   },
   computed: {
-    ...mapGetters('topic/siv', ['topic']),
-    ...mapState('topic/siv', ['author', 'replies']),
+    ...mapGetters('topic/siv', ['topic', 'replies']),
+    ...mapState('topic/siv', ['author']),
     breadcrumbs() {
       return [
         {

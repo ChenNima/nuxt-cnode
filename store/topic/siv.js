@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { topicGetter } from '~/lib/utile';
+import { topicGetter, replayGetter } from '~/lib/utile';
 import API from '~/lib/api';
 import * as TYPES from '~/store/mutation-types';
 
@@ -20,7 +20,8 @@ export const actions = {
 }
 
 export const getters = {
-  topic: state => topicGetter(state.topic)
+  topic: state => topicGetter(state.topic),
+  replies: state => state.replies.map(replayGetter)
 }
 
 export const mutations = {

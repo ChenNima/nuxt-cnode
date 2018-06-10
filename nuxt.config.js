@@ -26,7 +26,6 @@ module.exports = {
   ],
   css: [
     '@/node_modules/vuetify/dist/vuetify.min.css',
-    '@/assets/css/markdown.scss',
     '@/assets/css/override.scss'
   ],
   build: {
