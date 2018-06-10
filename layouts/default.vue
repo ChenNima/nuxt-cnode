@@ -8,8 +8,10 @@
     <site-logo class="md-mid-title"/>
   </v-toolbar>
   <v-content>
-    <v-container id="main_container" fluid>
-      <nuxt/>
+    <v-container id="main_container" fluid d-flex justify-center>
+      <div class="centered-container">
+        <nuxt/>
+      </div>
     </v-container>
   </v-content>
   <!-- <v-footer app></v-footer> -->
@@ -47,6 +49,9 @@ export default {
 <style lang="scss" scoped>
 .toolbar {
   z-index: 5;
+}
+.centered-container {
+  max-width: 960px;
 }
 @media (max-width: 600px) {
   #main_container {
