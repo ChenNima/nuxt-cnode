@@ -6,6 +6,7 @@
   <v-toolbar app fixed clipped-left class="toolbar">
     <v-toolbar-side-icon @click.stop="toggleDrawer(!drawerOpened)" class="hidden-md-and-up"></v-toolbar-side-icon>
     <site-logo class="md-mid-title"/>
+    <v-btn icon color="green darken-3" class="scroll-to-top-btn" @click="scrollToTop"><v-icon>arrow_upward</v-icon></v-btn>
   </v-toolbar>
   <v-content>
     <v-container id="main_container" fluid d-flex justify-center>
@@ -41,6 +42,9 @@ export default {
       if (isOpened !== this.drawerOpened) {
         this.toggleDrawer(isOpened);
       }
+    },
+    scrollToTop() {
+      window.scrollTo({top: 0, behavior: 'smooth'});
     }
   }
 }
@@ -52,6 +56,10 @@ export default {
 }
 .centered-container {
   max-width: 960px;
+}
+.scroll-to-top-btn {
+  position: absolute;
+  right: 0;
 }
 @media (max-width: 600px) {
   #main_container {
