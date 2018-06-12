@@ -1,12 +1,11 @@
 <template>
-<v-app dark>
+<v-app dark v-scroll="onScroll">
   <v-navigation-drawer app clipped fixed :mobileBreakPoint="960" :value="isDrawerOpened" @input="onDrawerInput" :touchless="true">
     <nav-list />
   </v-navigation-drawer>
   <v-toolbar app fixed clipped-left class="toolbar">
     <v-toolbar-side-icon @click.stop="toggleDrawer(!drawerOpened)" class="hidden-md-and-up"></v-toolbar-side-icon>
     <site-logo class="md-mid-title"/>
-    <v-btn icon color="green darken-3" class="scroll-to-top-btn" @click="scrollToTop"><v-icon>arrow_upward</v-icon></v-btn>
   </v-toolbar>
   <v-content>
     <v-container id="main_container" fluid d-flex justify-center>
@@ -15,6 +14,9 @@
       </div>
     </v-container>
   </v-content>
+  <v-fab-transition>
+    <v-btn v-show="showScrollToTop" fab color="green darken-3" fixed bottom right @click="scrollToTop"><v-icon>arrow_upward</v-icon></v-btn>
+  </v-fab-transition>
   <!-- <v-footer app></v-footer> -->
 </v-app>
 </template>
@@ -26,13 +28,19 @@ import * as TYPES from '~/store/mutation-types';
 import { mapMutations, mapState, mapGetters } from 'vuex';
 
 export default {
+  data: () => ({
+    scrollTop: 0
+  }),
   components: {
     NavList,
     SiteLogo
   },
   computed: {
     ...mapGetters(['isDrawerOpened']),
-    ...mapState(['drawerOpened'])
+    ...mapState(['drawerOpened']),
+    showScrollToTop() {
+      return this.scrollTop >= 1000;
+    }
   },
   methods: {
     ...mapMutations({
@@ -45,6 +53,9 @@ export default {
     },
     scrollToTop() {
       window.scrollTo({top: 0, behavior: 'smooth'});
+    },
+    onScroll() {
+      this.scrollTop = document.scrollingElement.scrollTop;
     }
   }
 }
@@ -56,10 +67,6 @@ export default {
 }
 .centered-container {
   max-width: 960px;
-}
-.scroll-to-top-btn {
-  position: absolute;
-  right: 0;
 }
 @media (max-width: 600px) {
   #main_container {
@@ -78,6 +85,9 @@ export default {
     left: 0;
     right: 0;
     margin: auto !important;
+  }
+  .centered-container {
+    max-width: 100%;
   }
 }
 </style>

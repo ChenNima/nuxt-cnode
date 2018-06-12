@@ -5,7 +5,7 @@
         <img :src="author.avatar_url">
       </v-list-tile-avatar>
       <v-list-tile-content>
-        <v-list-tile-title>
+        <v-list-tile-title class="card-title">
           {{topic.title}}
         </v-list-tile-title>
         <v-list-tile-sub-title class="subtitle">
