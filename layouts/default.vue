@@ -1,6 +1,7 @@
 <template>
 <v-app dark v-scroll="onScroll">
   <v-navigation-drawer app clipped fixed :mobileBreakPoint="960" :value="isDrawerOpened" @input="onDrawerInput" :touchless="true">
+    <current-user-info />
     <nav-list />
   </v-navigation-drawer>
   <v-toolbar app fixed clipped-left class="toolbar">
@@ -14,6 +15,7 @@
       </div>
     </v-container>
   </v-content>
+  <login-modal />
   <v-fab-transition>
     <v-btn v-show="showScrollToTop" fab color="green darken-3" fixed bottom right @click="scrollToTop"><v-icon>arrow_upward</v-icon></v-btn>
   </v-fab-transition>
@@ -24,6 +26,8 @@
 <script>
 import NavList from '../components/NavList.vue';
 import SiteLogo from '../components/common/SiteLogo.vue';
+import CurrentUserInfo from '../components/CurrentUserInfo.vue'
+import LoginModal from '../components/LoginModal.vue'
 import * as TYPES from '~/store/mutation-types';
 import { mapMutations, mapState, mapGetters } from 'vuex';
 
@@ -33,7 +37,9 @@ export default {
   }),
   components: {
     NavList,
-    SiteLogo
+    SiteLogo,
+    CurrentUserInfo,
+    LoginModal
   },
   computed: {
     ...mapGetters(['isDrawerOpened']),

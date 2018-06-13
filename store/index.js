@@ -12,6 +12,7 @@ const store = () => new Vuex.Store({
 
   state: {
     drawerOpened: false,
+    isLoginModalOpen: false,
     backRoutes: []
   },
   actions: {
@@ -26,6 +27,9 @@ const store = () => new Vuex.Store({
   getters: {
     isDrawerOpened({ drawerOpened }) {
       return isDesktop() || drawerOpened;
+    },
+    isLoginModalOpen({ isLoginModalOpen }) {
+      return isLoginModalOpen;
     }
   },
   mutations: {
@@ -37,6 +41,9 @@ const store = () => new Vuex.Store({
     },
     [TYPES.POP_BACK_ROUTE](state) {
       state.backRoutes.pop();
+    },
+    [TYPES.SET_LOGIN_MODAL_STATUS](state, isLoginModalOpen) {
+      state.isLoginModalOpen = isLoginModalOpen;
     }
   },
   modules: {
