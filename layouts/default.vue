@@ -16,6 +16,7 @@
     </v-container>
   </v-content>
   <login-modal />
+  <global-toast />
   <v-fab-transition>
     <v-btn v-show="showScrollToTop" fab color="green darken-3" fixed bottom right @click="scrollToTop"><v-icon>arrow_upward</v-icon></v-btn>
   </v-fab-transition>
@@ -28,6 +29,7 @@ import NavList from '../components/NavList.vue';
 import SiteLogo from '../components/common/SiteLogo.vue';
 import CurrentUserInfo from '../components/CurrentUserInfo.vue'
 import LoginModal from '../components/LoginModal.vue'
+import GlobalToast from '../components/GlobalToast.vue'
 import * as TYPES from '~/store/mutation-types';
 import { mapMutations, mapState, mapGetters } from 'vuex';
 
@@ -39,7 +41,8 @@ export default {
     NavList,
     SiteLogo,
     CurrentUserInfo,
-    LoginModal
+    LoginModal,
+    GlobalToast
   },
   computed: {
     ...mapGetters(['isDrawerOpened']),

@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as TYPES from '~/store/mutation-types';
+import API from '~/lib/api';
 import { isDesktop } from '../lib/utile';
-import { last } from 'lodash';
+import { last, get } from 'lodash';
+import axios from 'axios';
 
 import * as topic from './topic';
 
@@ -13,7 +15,11 @@ const store = () => new Vuex.Store({
   state: {
     drawerOpened: false,
     isLoginModalOpen: false,
-    backRoutes: []
+    backRoutes: [],
+    currentUser: null,
+    accessToken: null,
+    isToastOpen: false,
+    toastMessage: null
   },
   actions: {
     back({ commit, state }) {
@@ -22,6 +28,28 @@ const store = () => new Vuex.Store({
       }
       this.app.router.push(last(state.backRoute));
       commit(TYPES.POP_BACK_ROUTE);
+    },
+    async login({ commit, dispatch }, accesstoken) {
+      if (!accesstoken) {
+       return; 
+      }
+      try {
+        const res = await axios.post(API.login, {
+          accesstoken
+        });
+        commit(TYPES.SET_CURRENT_USER, res.data);
+        commit(TYPES.SET_ACCESS_TOKEN, accesstoken);
+      } catch (error) {
+        const message = get(error, 'response.data.error_msg') || error.message;
+        dispatch('showToast', message);
+      }
+    },
+    showToast({ commit }, message) {
+      if (!message) {
+        return;
+      }
+      commit(TYPES.SET_TOAST_STATUS, true);
+      commit(TYPES.SET_TOAST_MESSAGE, message);
     }
   },
   getters: {
@@ -30,7 +58,8 @@ const store = () => new Vuex.Store({
     },
     isLoginModalOpen({ isLoginModalOpen }) {
       return isLoginModalOpen;
-    }
+    },
+    isLoggedIn: ({ currentUser }) => !! currentUser
   },
   mutations: {
     [TYPES.TOGGLE_DRAWER](state, opened) {
@@ -44,6 +73,18 @@ const store = () => new Vuex.Store({
     },
     [TYPES.SET_LOGIN_MODAL_STATUS](state, isLoginModalOpen) {
       state.isLoginModalOpen = isLoginModalOpen;
+    },
+    [TYPES.SET_CURRENT_USER](state, currentUser) {
+      state.currentUser = currentUser;
+    },
+    [TYPES.SET_ACCESS_TOKEN](state, accessToken) {
+      state.accessToken = accessToken;
+    },
+    [TYPES.SET_TOAST_STATUS](state, isToastOpen) {
+      state.isToastOpen = isToastOpen;
+    },
+    [TYPES.SET_TOAST_MESSAGE](state, toastMessage) {
+      state.toastMessage = toastMessage;
     }
   },
   modules: {

@@ -8,34 +8,57 @@
         <v-container grid-list-md>
           <v-layout wrap>
             <v-flex xs12>
-              <v-text-field label="Access Token" color="green darken-3" required></v-text-field>
+              <v-text-field v-model="accessToken" label="Access Token" color="green darken-3" required></v-text-field>
             </v-flex>
           </v-layout>
         </v-container>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="green darken-2" flat @click.native="handleInput(false)">递交</v-btn>
-        <v-btn flat @click.native="handleInput(false)">取消</v-btn>
+        <v-btn :disabled="isLoading" color="green darken-2" flat @click="handleLogin">
+          <v-progress-circular indeterminate v-if="isLoading" color="green"></v-progress-circular>
+          <span v-else>递交</span>
+        </v-btn>
+        <v-btn :disabled="isLoading" flat @click="handleInput(false)">取消</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import { mapMutations, mapGetters } from 'vuex';
+import { mapMutations, mapGetters, mapActions } from 'vuex';
 import * as TYPES from '~/store/mutation-types';
 
 export default {
+  data: () => ({
+    accessToken: null,
+    isLoading: false
+  }),
   computed: {
-    ...mapGetters(['isLoginModalOpen'])
+    ...mapGetters(['isLoginModalOpen', 'isLoggedIn'])
   },
   methods: {
     ...mapMutations({
       setLoginModalStatus: TYPES.SET_LOGIN_MODAL_STATUS
     }),
+    ...mapActions(['login']),
     handleInput(isOpen) {
+      if (this.isLoading) {
+        return;
+      }
       this.setLoginModalStatus(isOpen);
+    },
+    async handleLogin() {
+      if (this.isLoading) {
+        return;
+      }
+      this.isLoading = true;
+      await this.login(this.accessToken);
+      this.accessToken = null;
+      this.isLoading = false;
+      if (this.isLoggedIn) {
+        this.setLoginModalStatus(false);
+      }
     }
   }
 }
