@@ -15,9 +15,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn :disabled="isLoading" color="green darken-2" flat @click="handleLogin">
-          <v-progress-circular indeterminate v-if="isLoading" color="green"></v-progress-circular>
-          <span v-else>递交</span>
+        <v-btn :loading="isLoading" color="green darken-2" flat @click="handleLogin">
+          <span>递交</span>
         </v-btn>
         <v-btn :disabled="isLoading" flat @click="handleInput(false)">取消</v-btn>
       </v-card-actions>
