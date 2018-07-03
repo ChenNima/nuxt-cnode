@@ -4,6 +4,7 @@ import * as TYPES from '~/store/mutation-types';
 import API from '~/lib/api';
 import { isDesktop } from '../lib/utile';
 import { last, get } from 'lodash';
+import { saveAccessToke } from '../lib/session-utils'; 
 import axios from 'axios';
 
 import * as topic from './topic';
@@ -37,6 +38,7 @@ const store = () => new Vuex.Store({
         const res = await axios.post(API.login, {
           accesstoken
         });
+        saveAccessToke(accesstoken);
         commit(TYPES.SET_CURRENT_USER, res.data);
         commit(TYPES.SET_ACCESS_TOKEN, accesstoken);
       } catch (error) {

@@ -15,6 +15,11 @@
       <mark-down-text :content="topic.content" />
     </v-card>
     <reply-list :replies="replies" />
+    <portal to="top-right-tool" v-if="isLoggedIn">
+      <v-btn flat icon color="white">
+        <v-icon>comment</v-icon>
+      </v-btn>
+    </portal>
   </div>
 </template>
 
@@ -44,6 +49,7 @@ export default {
     ReplyList
   },
   computed: {
+    ...mapGetters(['isLoggedIn']),
     ...mapGetters('topic/siv', ['topic', 'replies']),
     ...mapState('topic/siv', ['author']),
     breadcrumbs() {

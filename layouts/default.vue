@@ -7,6 +7,7 @@
   <v-toolbar app fixed clipped-left class="toolbar">
     <v-toolbar-side-icon @click.stop="toggleDrawer(!drawerOpened)" class="hidden-md-and-up"></v-toolbar-side-icon>
     <site-logo class="md-mid-title"/>
+    <portal-target class="top-right-tool" name="top-right-tool"></portal-target>
   </v-toolbar>
   <v-content>
     <v-container id="main_container" fluid d-flex justify-center>
@@ -31,6 +32,7 @@ import CurrentUserInfo from '../components/CurrentUserInfo.vue'
 import LoginModal from '../components/LoginModal.vue'
 import GlobalToast from '../components/GlobalToast.vue'
 import * as TYPES from '~/store/mutation-types';
+import { autoLogin } from '../lib/session-utils'; 
 import { mapMutations, mapState, mapGetters } from 'vuex';
 
 export default {
@@ -43,6 +45,9 @@ export default {
     CurrentUserInfo,
     LoginModal,
     GlobalToast
+  },
+  beforeMount() {
+    autoLogin(this.$store);
   },
   computed: {
     ...mapGetters(['isDrawerOpened']),
@@ -76,6 +81,10 @@ export default {
 }
 .centered-container {
   max-width: 960px;
+}
+.top-right-tool {
+  position: absolute;
+  right: 0;
 }
 @media (max-width: 600px) {
   #main_container {

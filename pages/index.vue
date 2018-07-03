@@ -1,9 +1,16 @@
 <template>
-<pull-refresh-layout :isLoading="isLoading" @refresh="handleRefresh">
-  <infinity-scroll-layout :isLoading="isLoadingMore" @loadMore="onLoadMore">
-    <topic-list :topics="topics"/>
-  </infinity-scroll-layout>
-</pull-refresh-layout>
+<div>
+  <pull-refresh-layout :isLoading="isLoading" @refresh="handleRefresh">
+    <infinity-scroll-layout :isLoading="isLoadingMore" @loadMore="onLoadMore">
+      <topic-list :topics="topics"/>
+    </infinity-scroll-layout>
+  </pull-refresh-layout>
+  <portal to="top-right-tool" v-if="isLoggedIn">
+    <v-btn flat icon color="white">
+      <v-icon>edit</v-icon>
+    </v-btn>
+  </portal>
+</div>
 </template>
 
 <script>
@@ -48,6 +55,7 @@ export default {
     this.setScrollTop(0);
   },
   computed: {
+    ...mapGetters(['isLoggedIn']),
     ...mapGetters('topic', ['topics']),
     ...mapState('topic', ['page', 'scrollTop', 'tab'])
   },

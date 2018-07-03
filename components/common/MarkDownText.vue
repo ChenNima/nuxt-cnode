@@ -34,6 +34,7 @@ export default {
     margin-bottom: 10px;
   }
   p {
+    font-size: 15px;
     margin-bottom: 10px;
   }
 }

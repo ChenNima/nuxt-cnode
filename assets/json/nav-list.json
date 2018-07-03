@@ -23,5 +23,10 @@
     "name": "招聘",
     "icon": "business_center",
     "tab": "job"
+  },
+  {
+    "name": "测试",
+    "icon": "bug_report",
+    "tab": "dev"
   }
 ]
