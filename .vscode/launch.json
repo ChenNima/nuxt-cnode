@@ -7,6 +7,14 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Launch via NPM",
+      "protocol": "inspector",
+      "program": "${workspaceFolder}/server.js",
+      "useWSL": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "protocol": "inspector",
       "name": "Launch Program",
       "program": "${workspaceFolder}/server.js",

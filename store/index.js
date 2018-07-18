@@ -23,6 +23,11 @@ const store = () => new Vuex.Store({
     toastMessage: null
   },
   actions: {
+    async nuxtServerInit({ dispatch }, { req: { accesstoken } }) {
+      if (accesstoken) {
+        await dispatch('login', accesstoken)
+      }
+    },
     back({ commit, state }) {
       if (!state.backRoute.length) {
         return;

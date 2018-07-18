@@ -32,7 +32,6 @@ import CurrentUserInfo from '../components/CurrentUserInfo.vue'
 import LoginModal from '../components/LoginModal.vue'
 import GlobalToast from '../components/GlobalToast.vue'
 import * as TYPES from '~/store/mutation-types';
-import { autoLogin } from '../lib/session-utils'; 
 import { mapMutations, mapState, mapGetters } from 'vuex';
 
 export default {
@@ -45,9 +44,6 @@ export default {
     CurrentUserInfo,
     LoginModal,
     GlobalToast
-  },
-  beforeMount() {
-    autoLogin(this.$store);
   },
   computed: {
     ...mapGetters(['isDrawerOpened']),
