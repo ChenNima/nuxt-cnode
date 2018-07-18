@@ -9,8 +9,8 @@
       "request": "launch",
       "protocol": "inspector",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/node_modules/.bin/nuxt",
-      "runtimeExecutable": "/Users/i336106/.nvm/versions/node/v8.9.3/bin/node"
+      "program": "${workspaceFolder}/server.js",
+      "runtimeVersion": "8.10.0"
     }
   ]
 }

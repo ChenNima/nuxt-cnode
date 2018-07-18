@@ -18,7 +18,7 @@ const store = () => new Vuex.Store({
     isLoginModalOpen: false,
     backRoutes: [],
     currentUser: null,
-    accessToken: null,
+    accesstoken: null,
     isToastOpen: false,
     toastMessage: null
   },
@@ -79,8 +79,8 @@ const store = () => new Vuex.Store({
     [TYPES.SET_CURRENT_USER](state, currentUser) {
       state.currentUser = currentUser;
     },
-    [TYPES.SET_ACCESS_TOKEN](state, accessToken) {
-      state.accessToken = accessToken;
+    [TYPES.SET_ACCESS_TOKEN](state, accesstoken) {
+      state.accesstoken = accesstoken;
     },
     [TYPES.SET_TOAST_STATUS](state, isToastOpen) {
       state.isToastOpen = isToastOpen;

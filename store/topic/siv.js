@@ -10,11 +10,14 @@ export const state = {
 }
 
 export const actions = {
-  async fetchTopic({commit}, id) {
+  async fetchTopic({commit, rootState}, id) {
     if (!id) {
       return;
     }
-    const res = await axios.get(API.topic({id}));
+    const { accesstoken } = rootState;
+    const res = await axios.get(API.topic({id}), {
+      params: {  accesstoken }
+    });
     commit(TYPES.FETCH_TOPIC_DONE, res.data.data)
   }
 }
