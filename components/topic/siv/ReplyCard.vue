@@ -4,7 +4,7 @@
     <mark-down-text :content="reply.content" />
     <div class="action-bar">
       <span class="pink--text text--darken-1 like-count">{{reply.ups.length}}</span>
-      <v-btn icon flat color="pink darken-1"><v-icon>favorite_border</v-icon></v-btn>
+      <v-btn icon flat color="pink darken-1"><v-icon>{{`favorite${reply.is_uped ? '' : '_border'}`}}</v-icon></v-btn>
       <v-btn icon flat color="green darken-3"><v-icon>reply</v-icon></v-btn>
     </div>
   </v-card>
