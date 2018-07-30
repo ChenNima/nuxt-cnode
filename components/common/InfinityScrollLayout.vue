@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     shouldLoadMore() {
-      return this.scrollTop + this.clientHeight >= this.scrollHeight - 100;
+      return this.scrollTop + this.clientHeight >= this.scrollHeight - 200;
     }
   },
   methods: {
