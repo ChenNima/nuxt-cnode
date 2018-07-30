@@ -77,12 +77,14 @@ export default {
       if (!!value === !!oldValue) {
         return;
       }
-      const style = document.getElementsByTagName('html')[0].style;
-      if(value) {
-        style.overflowY = 'hidden';
-      } else {
-        style.overflowY = 'scroll';
-      }
+      ['html', 'body'].forEach((tag) => {
+        const style = document.getElementsByTagName(tag)[0].style;
+        if(value) {
+          style.overflowY = 'hidden';
+        } else {
+          style.overflowY = 'scroll';
+        }
+      });
     }
   }
 }
