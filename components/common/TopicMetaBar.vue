@@ -28,7 +28,7 @@ export default {
   min-width: 50px;
   color: #949494;
 
-  .icon {
+  .v-icon {
     color: #949494;
     font-size: 16px;
     margin-right: 5px;
