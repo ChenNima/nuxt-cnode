@@ -7,7 +7,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch via NPM",
+      "name": "Launch via wsl",
       "protocol": "inspector",
       "program": "${workspaceFolder}/server.js",
       "useWSL": true
@@ -17,8 +17,7 @@
       "request": "launch",
       "protocol": "inspector",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/server.js",
-      "runtimeVersion": "8.10.0"
+      "program": "${workspaceFolder}/server.js"
     }
   ]
 }
